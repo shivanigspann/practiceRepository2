@@ -6,35 +6,32 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class InboxPage {
-	WebDriver driver;
+import basepage.BaseSetUpPage;
+
+public class InboxPage extends BaseSetUpPage {
+
 	private By compose=By.xpath("//div[@class='z0']/div");
-	private By to=By.xpath("//div[@class='aYF']");
-	
-	public InboxPage(WebDriver driver){
+	private By to=By.className("aRx");
+
+
+	public InboxPage(WebDriver driver) {
 		this.driver=driver;
 	}
-	
+
 	public InboxPage clickComposeEmail(){
-		System.out.println("Hello Compose");
-		Set<String> allWin=driver.getWindowHandles();
-		
-		for(String s:allWin){
-			if(driver.switchTo().window(s).getTitle().contains("Inbox"))
-								break;
-		}
-		System.out.println("Window "+driver.getTitle());
-	
-		driver.findElement(compose).click();
-		System.out.println("Hello click compose");
+		WebElement composeElement = (new WebDriverWait(driver, 10))
+				.until(ExpectedConditions.presenceOfElementLocated(By.xpath("html/body/div[7]/div[3]/div/div[2]/div[1]/div[1]/div[1]/div[2]/div/div/div[1]/div/div")));
+		if(composeElement.isDisplayed())		
+			driver.findElement(compose).click();
+		System.out.println("Hello1");
 		return this;
 	}
-	
+
 	public boolean verifyCompose(){
-		System.out.println("Hello verify");
 		WebElement we=driver.findElement(to);
-		System.out.println("Hello to");
 		return we.isDisplayed();
 	}
 }
